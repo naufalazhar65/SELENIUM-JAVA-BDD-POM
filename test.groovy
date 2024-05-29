@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Publish report') {
             steps {
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '', reportFiles: 'target/surefire-reports/index.html', reportName: 'Pipeline', reportTitles: '', useWrapperFileDirectly: true])
+                cucumber buildStatus: 'UNCHANGED', customCssFiles: '', customJsFiles: '', fileIncludePattern: '**/*.json', jsonReportDirectory: '/Users/naufalazhar/Documents/NAUFAL_AZHAR/ECLIPSE/WORK_SPACE/BDDframeworkPOM/target', reportTitle: 'My Report', sortingMethod: 'ALPHABETICAL'
                 testNG()
             }
         }
