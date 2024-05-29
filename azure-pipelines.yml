@@ -7,15 +7,10 @@ trigger:
 - main
 
 pool:
-  name: 'Azure Pipelines'  # Replace 'Default' with the name of your self-hosted agent pool
   vmImage: macos-latest
+  name: 'Azure Pipeline'
 
 steps:
-- script: |
-    echo Starting the build
-    mvn clean test
-  displayName: 'Build with Maven'
-
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -26,4 +21,3 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean test'
-  displayName: 'Run Maven Tests'
