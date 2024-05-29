@@ -10,7 +10,7 @@ pipeline {
         stage('Get Source Code') {
             steps {
                 git branch: 'main', credentialsId: '1b0cd892-6612-4b85-b3b0-8d8f9d34d5b9', url: 'https://github.com/naufalazhar65/SELENIUM-JAVA-BDD-POM'
-                echo 'Hello World'
+                echo 'Demo Test'
             }
         }
         stage('Verify Maven') {
