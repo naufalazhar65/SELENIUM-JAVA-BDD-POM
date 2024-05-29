@@ -1,4 +1,4 @@
-# Maven
+# Azure Pipelines YAML for Maven
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -8,16 +8,53 @@ trigger:
 
 pool:
   vmImage: 'macos-latest'
-  name: 'Default'
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'clean test'
+variables:
+  MAVEN_HOME: '/opt/homebrew'
+  PATH: '/opt/homebrew/bin:$(PATH)'
+
+stages:
+- stage: GetSourceCode
+  jobs:
+  - job: Checkout
+    steps:
+    - checkout: self
+      persistCredentials: true
+      clean: true
+      fetchDepth: 0
+    - script: echo 'Demo Test'
+      displayName: 'Echo Demo Test'
+
+- stage: VerifyMaven
+  jobs:
+  - job: Verify
+    steps:
+    - script: echo $(PATH)
+      displayName: 'Echo PATH'
+    - script: mvn -v
+      displayName: 'Verify Maven Version'
+
+- stage: BuildCode
+  jobs:
+  - job: Build
+    steps:
+    - script: mvn compile
+      displayName: 'Compile Code'
+
+- stage: RunTests
+  jobs:
+  - job: Test
+    steps:
+    - script: mvn clean test
+      displayName: 'Run Tests'
+
+- stage: PublishReport
+  jobs:
+  - job: Publish
+    steps:
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        failTaskOnFailedTests: true
+      displayName: 'Publish Test Results'
