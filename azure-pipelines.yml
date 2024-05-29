@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: 'Default'  # Replace 'Default' with the name of your self-hosted agent pool
+  name: 'Azure Pipelines'  # Replace 'Default' with the name of your self-hosted agent pool
   vmImage: macos-latest
 
 steps:
