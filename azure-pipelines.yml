@@ -8,6 +8,7 @@ trigger:
 
 pool:
   vmimage: macos-latest
+  name: 'Default'
 
 steps:
 - task: Maven@3
