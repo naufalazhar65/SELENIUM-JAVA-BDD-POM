@@ -1,8 +1,3 @@
-# Azure Pipelines YAML for Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
 trigger:
 - main
 
@@ -23,15 +18,15 @@ stages:
       persistCredentials: true
       clean: true
       fetchDepth: 0
-    - script: |
-        echo 'Demo Test'
+    - bash: echo 'Demo Test'
       displayName: 'Echo Demo Test'
 
 - stage: BuildCode
   jobs:
   - job: Build
     steps:
-    - script: |
+    - bash: |
+        bash --version  # Check bash version to verify it's available
         mvn compile
       displayName: 'Compile Code'
 
@@ -39,6 +34,6 @@ stages:
   jobs:
   - job: Test
     steps:
-    - script: |
+    - bash: |
         mvn clean test
       displayName: 'Run Tests'
